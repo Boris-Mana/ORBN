@@ -4,7 +4,7 @@ from . import models
 
 
 class AdsListSerializer(serializers.ModelSerializer):
-    object_address = serializers.StringRelatedField()
+    # object_address = serializers.StringRelatedField()
 
     class Meta:
         model = models.Advt

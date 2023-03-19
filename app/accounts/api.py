@@ -26,10 +26,8 @@ class LoginAPI(generics.GenericAPIView):
     # print('Запустилось АПИ логина. Функция:', serializer_class)
 
     def post(self, request, *args, **kwargs):
-        print('Отправляем post', request.data)
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        print('И  юзверя с токеном:', serializer)
         user = serializer.validated_data
         print('И создали его:', user)        
         

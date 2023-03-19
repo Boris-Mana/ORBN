@@ -80,8 +80,13 @@ class Object_address(models.Model):
     object_number = models.CharField(
         'Номер дома, квартиры и пр.', max_length=70, blank=True, null=True)
 
-    def __str__(self):
+    def __str__(self):        
         return self.raw_string or ''
+    
+    class Meta:
+        print('Сработала функция в модели адресов')
+        unique_together = ('raw_string', 'address_region', 'address_locality', 'address_district', 'address_street', 'object_number', )
+        # exclude=None
 
 
 class Deal_type(models.Model):
@@ -129,4 +134,7 @@ class Advt(models.Model):
         Object_address, on_delete=models.DO_NOTHING)
 
     def __str__(self):        
-        return str(self.id) + " " + self.full_description
+        try:
+            return str(self.id) + " " + self.full_description
+        except:
+            return str(self.id) + " Нет описания. Объект площадью "  + str(self.square)

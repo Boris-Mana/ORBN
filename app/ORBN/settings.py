@@ -25,7 +25,8 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = True #bool(os.environ.get('DJANGO_DEBUG', False))
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'orbn-env.eba-iak7sskm.us-east-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = []
+# ['localhost', '127.0.0.1', 'orbn-env.eba-iak7sskm.us-east-2.elasticbeanstalk.com']
 
 # Application definition
 
@@ -44,7 +45,7 @@ INSTALLED_APPS = [
     'frontend',
     'knox',
     'accounts',
-    'ORBN', # !БМ
+    # 'ORBN', # !БМ
 ]
 
 MIDDLEWARE = [
@@ -155,6 +156,6 @@ STATICFILES_FINDERS = [
 STATIC_URL = '/static/'
 # print('Для статики используем', STATIC_URL)
 
-STATIC_ROOT = 'static_deploy' # 'static_deploy'
+STATIC_ROOT = 'static' # 'static_deploy'
 #  папка, в которую собирается проект по команде manage.py collectstatic
 # STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
