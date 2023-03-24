@@ -44,10 +44,11 @@ class ObjectTypeSerializer(serializers.ModelSerializer):
 
 
 class ObjectAddressSerializer(serializers.ModelSerializer):
+    # print('========== Сработал: serializer.ObjectAddressSerializer')
     class Meta:
         model = models.Object_address
-        fields = '__all__' #('id', 'address_region')
-
+        fields = '__all__' # ('id', 'address_region') 
+        # print('========== ==== Сработал: serializer.ObjectAddressSerializer.Meta')
 
 class AddressRegionSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,4 +1,6 @@
 from rest_framework import viewsets, permissions
+from django.core.exceptions import ValidationError
+
 from . import serializers
 from . import models
 from .pagination import ResultSetPagination
@@ -113,10 +115,28 @@ class ObjectAddressListView(viewsets.ModelViewSet):
     serializers = {
         'default': serializers.ObjectAddressSerializer,
     }
-
-    def get_serializer_class(self):
-        return self.serializers.get(self.action,
-                                    self.serializers['default'])
+    
+    def get_serializer_class(self):        
+        print('========== ==== Сработал: api.ObjectAddressListView.get_serializer_class ')
+        print('Проба получить контекст сериалайзера', self.serializers['default']['address_street'])
+        try:
+            print('========== ==== Проверяем на уникальность комбинации' )
+            # print('========== ==== имеем данные queryset', self.queryset )
+            # address = models.Object_address()
+            # print('========== ==== имеем данные address', address )
+            # address.full_clean()
+            assa = serializers.ObjectAddressSerializer
+            # print('========== ==== Отправляем дальше', assa.get_fields() )
+            return self.serializers.get(self.action,
+                                        self.serializers['default'])
+        except ValidationError as e:
+            print(f'Ошибочка вышла: {e}')
+            return e
+        except :
+            print('Какая-то другая ошибка')
+            # Do something based on the errors contained in e.message_dict.
+            # Display them to a user, or handle them programmatically.
+            # pass
 
 
 class AddressRegionListView(viewsets.ModelViewSet):

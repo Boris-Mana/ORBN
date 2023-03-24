@@ -1,5 +1,9 @@
 import uuid
 from django.db import models
+from django.db.models import Q
+from django.db.models.constraints import UniqueConstraint
+from django.core.exceptions import ValidationError #, BadRequest
+
 
 
 class Address_locality(models.Model):
@@ -68,26 +72,58 @@ class Object_types_and_kinds(models.Model):
 class Object_address(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     raw_string = models.TextField(
-        'исходная текстовая строка', blank=True, null=True)
+        'исходная текстовая строка', blank=True, null=True, default='')
     address_region = models.ForeignKey(
         Address_region, verbose_name='Область', on_delete=models.DO_NOTHING)
     address_locality = models.ForeignKey(
-        Address_locality, verbose_name='Населенный пункт', on_delete=models.DO_NOTHING, blank=True, null=True)
+        Address_locality, verbose_name='Населенный пункт', 
+        on_delete=models.DO_NOTHING, blank=True, null=True, default='')
     address_district = models.ForeignKey(
-        Address_district, verbose_name='Район', on_delete=models.DO_NOTHING, blank=True, null=True)
+        Address_district, verbose_name='Район', on_delete=models.DO_NOTHING, 
+        blank=True, null=True, default='')
     address_street = models.ForeignKey(
-        Address_street, verbose_name='Улица', on_delete=models.DO_NOTHING, blank=True, null=True)
+        Address_street, verbose_name='Улица', on_delete=models.DO_NOTHING, 
+        blank=True, null=True) # , default=''
     object_number = models.CharField(
-        'Номер дома, квартиры и пр.', max_length=70, blank=True, null=True)
+        'Номер дома, квартиры и пр.', max_length=70, blank=True, 
+        null=True, default='')
+    
+    print('°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°')
 
-    def __str__(self):        
+    # def validate_unique(self, exclude=None):
+        # print('========== ==== Сработал: models.Object_address.validate_unique')        
+        # if Object_address.objects.exclude(id=self.id).filter(raw_string=
+        #                                                      self.raw_string,
+        #                                                      address_street__isnull=True).exists():
+        #     raise ValidationError("Duplicate Object_address",
+        #                           code='Не_уникальный_адрес')
+        # super(Object_address, self).validate_unique(exclude)
+
+    def __str__(self):
         return self.raw_string or ''
     
     class Meta:
-        print('Сработала функция в модели адресов')
-        unique_together = ('raw_string', 'address_region', 'address_locality', 'address_district', 'address_street', 'object_number', )
+        unique_together = ['raw_string', 'address_region', 'address_locality', 'address_district', 'address_street', 'object_number']
+        
         # exclude=None
-
+        # print('========== ==== Сработал: models.Object_address.Meta')
+        
+        # constraints = [
+        #     UniqueConstraint(fields=[
+        #         'raw_string', 'address_region',
+        #         'address_locality', 'address_district',
+        #         'address_street', 'object_number'
+        #     ],
+        #         name='unique_all'),
+        #     UniqueConstraint(fields=[
+        #         'raw_string', 'address_region',
+        #         'address_locality', 'address_district',
+        #         'object_number'
+        #     ],
+        #         condition=Q(address_street=None) | Q(address_street=''),
+        #         name='unique_without_street'),
+        # ]
+        
 
 class Deal_type(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
