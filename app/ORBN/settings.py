@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'frontend',
     'knox',
     'accounts',
-    # 'ORBN', # !БМ
+    'ORBN', # !БМ
 ]
 
 MIDDLEWARE = [

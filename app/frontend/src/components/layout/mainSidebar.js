@@ -16,6 +16,8 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
+
+
 import DatePicker from '@mui/lab/DatePicker';
 
 const MainSidebar = (props) => {
@@ -187,7 +189,7 @@ const MainSidebar = (props) => {
                             autoFocus />
                     </Box>
                 </Box>
-                <Typography variant="h4" > Тип сделки </Typography>
+                <Typography variant="h4" >Тип сделки</Typography>
                 <Box component="div" sx={{ p: 1 }}>
                     <FormGroup>
                         {props.dealTypes.map(dealType => (
@@ -289,8 +291,8 @@ const MainSidebar = (props) => {
                         </Grid>
                     </Grid>
                 </Box>
-                <Typography variant="h4" sx={{ paddingBottom: 0.5 }} > Период публикации </Typography>
-                <Box component="div" >
+                <Typography variant="h4" sx={{ paddingBottom: 0.5 }} >Период публикации.</Typography>
+                <Box component="div" sx={{ paddingTop: 1, paddingBottom: 1 }} >
                     <Grid container spacing={2}>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <Grid item xs={12} sm={6}>
@@ -304,6 +306,7 @@ const MainSidebar = (props) => {
                                         onFiltersChanged()
                                     }}
                                 />
+                                Текст 1{console.log('Тест вывода в консоль')}
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <DatePicker
@@ -316,7 +319,8 @@ const MainSidebar = (props) => {
                                         onFiltersChanged()
                                     }}
                                 />
-                            </Grid>
+                                Текст 2
+                            </Grid>                            
                         </LocalizationProvider>
                     </Grid>
                 </Box>

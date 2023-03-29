@@ -116,16 +116,16 @@ class ObjectAddressListView(viewsets.ModelViewSet):
         'default': serializers.ObjectAddressSerializer,
     }
     
-    def get_serializer_class(self):        
+    def get_serializer_class(self):
         print('========== ==== Сработал: api.ObjectAddressListView.get_serializer_class ')
-        print('Проба получить контекст сериалайзера', self.serializers['default']['address_street'])
+        print('========== ==== Проба получить контекст сериалайзера', self.request.data)
         try:
             print('========== ==== Проверяем на уникальность комбинации' )
             # print('========== ==== имеем данные queryset', self.queryset )
-            # address = models.Object_address()
-            # print('========== ==== имеем данные address', address )
-            # address.full_clean()
-            assa = serializers.ObjectAddressSerializer
+            # address = models.Object_address()            
+            address = models.Object_address(self)
+            print('========== ==== Создали экз. класса адрес')
+            address.full_clean()
             # print('========== ==== Отправляем дальше', assa.get_fields() )
             return self.serializers.get(self.action,
                                         self.serializers['default'])

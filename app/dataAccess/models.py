@@ -83,21 +83,22 @@ class Object_address(models.Model):
         blank=True, null=True, default='')
     address_street = models.ForeignKey(
         Address_street, verbose_name='Улица', on_delete=models.DO_NOTHING, 
-        blank=True, null=True) # , default=''
+        blank=True, null=True, default=None) # , default=''
     object_number = models.CharField(
         'Номер дома, квартиры и пр.', max_length=70, blank=True, 
         null=True, default='')
     
     print('°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°')
 
-    # def validate_unique(self, exclude=None):
-        # print('========== ==== Сработал: models.Object_address.validate_unique')        
-        # if Object_address.objects.exclude(id=self.id).filter(raw_string=
-        #                                                      self.raw_string,
-        #                                                      address_street__isnull=True).exists():
-        #     raise ValidationError("Duplicate Object_address",
-        #                           code='Не_уникальный_адрес')
-        # super(Object_address, self).validate_unique(exclude)
+    def validate_unique(self, exclude=None):
+        print('========== ==== Сработал: models.Object_address.validate_unique')        
+        if Object_address.objects.exclude(id=self.id).filter(raw_string=
+                                                             self.raw_string,
+                                                             address_street__isnull=True).exists():
+            raise ValidationError("Duplicate Object_address",
+                                  code='Не_уникальный_адрес')
+        print('========== ==== Закончили проверку на уникальность: models.Object_address.validate_unique')
+        super(Object_address, self).validate_unique(exclude)
 
     def __str__(self):
         return self.raw_string or ''

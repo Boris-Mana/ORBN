@@ -28,6 +28,7 @@ export class AdvtsListPage extends Component {
     }
 
     render() {
+        console.log('В рендере advts:', this.props);
         const perPage = this.props.advtsGetParams.limit;
         const totalPages = Math.ceil(this.props.totalCount / perPage);
 
